@@ -4,15 +4,18 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>mainwindow.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
+      <itemPath>mainwindow.ui</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>main.cpp</itemPath>
+      <itemPath>mainwindow.cpp.cc</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -41,6 +44,12 @@
       </compileType>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="mainwindow.cpp.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="mainwindow.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="mainwindow.ui" ex="false" tool="3" flavor2="0">
+      </item>
     </conf>
     <conf name="Release" type="4">
       <toolsSet>
@@ -67,6 +76,12 @@
         </asmTool>
       </compileType>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="mainwindow.cpp.cc" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="mainwindow.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="mainwindow.ui" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>
