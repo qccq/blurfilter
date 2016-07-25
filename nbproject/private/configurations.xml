@@ -4,7 +4,7 @@
   <confs>
     <conf name="Debug" type="4">
       <toolsSet>
-        <developmentServer>localhost</developmentServer>
+        <developmentServer>ef@192.168.0.34:22</developmentServer>
         <platform>2</platform>
       </toolsSet>
       <dbx_gdbdebugger version="1">

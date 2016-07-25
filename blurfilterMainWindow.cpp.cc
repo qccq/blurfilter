@@ -5,17 +5,17 @@
  */
 
 /*
- * File:   mainwindow.cpp
+ * File:   blurfilterMainWindow.cpp
  * Author: ef
  *
- * Created on July 24, 2016, 6:30 PM
+ * Created on 25 juillet 2016, 22:45
  */
 
-#include "Mainwindow.h"
+#include "blurfilterMainWindow.h"
 
-mainwindow::mainwindow() {
+blurfilterMainWindow::blurfilterMainWindow() {
     widget.setupUi(this);
 }
 
-mainwindow::~mainwindow() {
+blurfilterMainWindow::~blurfilterMainWindow() {
 }

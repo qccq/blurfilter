@@ -5,7 +5,7 @@
  */
 
 /* 
- * File:   mainwindow.h
+ * File:   Mainwindow.h
  * Author: ef
  *
  * Created on July 24, 2016, 6:30 PM
