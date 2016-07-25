@@ -11,6 +11,8 @@
  * Created on 25 juillet 2016, 22:45
  */
 
+//fuck
+
 #ifndef _BLURFILTERMAINWINDOW_H
 #define _BLURFILTERMAINWINDOW_H
 

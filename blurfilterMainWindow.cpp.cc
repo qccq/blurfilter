@@ -19,3 +19,5 @@ blurfilterMainWindow::blurfilterMainWindow() {
 
 blurfilterMainWindow::~blurfilterMainWindow() {
 }
+
+// fff
