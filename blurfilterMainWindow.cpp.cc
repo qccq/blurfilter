@@ -11,7 +11,7 @@
  * Created on 25 juillet 2016, 22:45
  */
 
-#include <"blurfilterMainWindow.h">
+#include <blurfilterMainWindow.h>
 
 blurfilterMainWindow::blurfilterMainWindow() {
     widget.setupUi(this);
