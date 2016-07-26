@@ -69,9 +69,7 @@ void setCLIparams(QApplication& App) {
 }
 
 
-int main(int argc, char *argv[]) 
-
-{
+int main(int argc, char *argv[]) {
    
     //http://stackoverflow.com/questions/23844867/qt-application-with-optional-gui
     //http://www.qtcentre.org/threads/38171-Both-a-command-line-and-GUI-application-at-the-same-time

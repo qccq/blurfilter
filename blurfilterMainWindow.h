@@ -16,7 +16,7 @@
 #ifndef _BLURFILTERMAINWINDOW_H
 #define _BLURFILTERMAINWINDOW_H
 
-#include "ui_blurfilterMainWindow.h"
+#include "blurfilterMainWindow.ui"
 
 class blurfilterMainWindow : public QMainWindow {
     Q_OBJECT
