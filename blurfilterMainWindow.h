@@ -25,6 +25,6 @@ public:
     virtual ~blurfilterMainWindow();
 private:
     Ui::blurfilterMainWindow widget;
-};
+}
 
 #endif /* _BLURFILTERMAINWINDOW_H */
