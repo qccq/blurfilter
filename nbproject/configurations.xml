@@ -4,17 +4,18 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>blurfilterMainWindow.h</itemPath>
+      <itemPath>header/Blurfilter.h</itemPath>
+      <itemPath>header/Pictures.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
-      <itemPath>blurfilterMainWindow.ui</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>blurfilterMainWindow.cpp.cc</itemPath>
+      <itemPath>source/Blurfilter.cpp</itemPath>
+      <itemPath>source/Pictures.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -41,14 +42,30 @@
         <modules>core gui widgets</modules>
       </qt>
       <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>/usr/local/include/opencv2</pElem>
+            <pElem>/usr/local/lib</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <linkerDynSerch>
+            <pElem>/usr/local/include/opencv2</pElem>
+          </linkerDynSerch>
+          <linkerLibItems>
+            <linkerOptionItem>`pkg-config --libs opencv`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
       </compileType>
-      <item path="blurfilterMainWindow.cpp.cc" ex="false" tool="1" flavor2="0">
+      <item path="header/Blurfilter.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="blurfilterMainWindow.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="blurfilterMainWindow.ui" ex="false" tool="3" flavor2="0">
+      <item path="header/Pictures.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="source/Blurfilter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="source/Pictures.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="4">
@@ -67,6 +84,10 @@
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>/usr/local/include/opencv2</pElem>
+            <pElem>/usr/local/lib</pElem>
+          </incDir>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
@@ -74,14 +95,24 @@
         <asmTool>
           <developmentMode>5</developmentMode>
         </asmTool>
+        <linkerTool>
+          <linkerDynSerch>
+            <pElem>/usr/local/include/opencv2</pElem>
+          </linkerDynSerch>
+          <linkerLibItems>
+            <linkerOptionItem>`pkg-config --libs opencv`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
       </compileType>
-      <item path="blurfilterMainWindow.cpp.cc" ex="false" tool="1" flavor2="0">
+      <item path="header/Blurfilter.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="blurfilterMainWindow.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="blurfilterMainWindow.ui" ex="false" tool="3" flavor2="0">
+      <item path="header/Pictures.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="source/Blurfilter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="source/Pictures.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
   </confs>
