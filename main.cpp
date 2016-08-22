@@ -1,10 +1,4 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
  * File:   main.cpp
  * Author: ef
  *
@@ -17,116 +11,115 @@
 #include <QCommandLineParser>
 #include <QString>
 #include <QStringList>
-#include <QDebug>
 #include <QDir>
+#include <QDebug>
 
 #include <header/Blurfilter.h>
-#include <qt4/QtCore/qglobal.h>
-
-//#include <blurfilterMainWindow.h>
 
 // Inspiration
 // http://www.pyimagesearch.com/2015/09/07/blur-detection-with-opencv/
 
 QString THRESHOLD_DEFAULTVALUE = "100";
-//QString DESTINATION_DEFAULTVALUE = "./blurfilter";
+QString RENAME_DEFAULTVALUE = "blurry.";
 
-float checkThreshold(QCommandLineOption& thresholdOption, QCommandLineParser& parser) {
-    
-    // default threshold value
-    int thresholdValue = thresholdOption.defaultValues().at(0).toInt();        
+enum ParseResult
+{
+    ArgumentOk,
+    ArgumentError,
+};
 
-    bool threshold = parser.isSet(thresholdOption);    
+struct ParseResponse
+{
+    QDir path;
+    QString errormsg;
+    QString prefix;
+    int threshold;
+};
 
-    // Check that the threshold is valid.
-    if (threshold) 
-    {
-        thresholdValue = parser.value(thresholdOption).toFloat();
-        // http://doc.qt.io/qt-4.8/qstring.html#toInt
-        //  check thresholdValue>= 0
-    }
-    
-    return thresholdValue;        
-}
-
-int checkRecursive(QCommandLineOption& recursiveOption, QCommandLineParser& parser) {
-    
-    // default threshold value
-    int recursiveValue = recursiveOption.defaultValues().at(0).toInt();        
-
-    bool threshold = parser.isSet(recursiveOption);    
-
-    // Check that the threshold is valid.
-    if (threshold) 
-    {
-        recursiveValue = parser.value(recursiveOption).toInt();
-        // http://doc.qt.io/qt-4.8/qstring.html#toInt
-        //  check thresholdValue>= 0
-    }
-    
-    return recursiveValue;        
-}
-
-int checkOption(QCommandLineOption& option, QCommandLineParser& parser, bool& CLImode) {
-    
-    //option value
-    int value;
-
-    bool isSet = parser.isSet(option);    
-
-    // Check that the threshold is valid.
-    if (isSet) 
-    {
-        CLImode = 1;
-        
-        value = parser.value(option).toInt();
-        // http://doc.qt.io/qt-4.8/qstring.html#toInt
-        //  check thresholdValue>= 0
-    }
-    else 
-    {
-        value = option.defaultValues().at(0).toInt();
-    }
-    
-    return value;        
-}
-
-QDir checkArgument(const QString argPath){
-    
-//    QString currentDir = QDir::currentPath();
-//    QDir path(currentDir);
+ParseResult checkArgument(const QString& argPath, ParseResponse& res){
     
     QDir path(argPath);
-    
-//    if (argPath.isEmpty()) {
-//        path.setPath(DESTINATION_DEFAULTVALUE);
-//    }
-//    else {
-//        path.setPath(argPath);
-//    }
-    
+            
+    if (! path.exists()) {
+        // Path don't exist.
+        res.errormsg = QString("Error: Path %1 don't exist.").arg(path.path());
+        return ArgumentError;
+    }
+
+    if (! path.isReadable()) {
+        // Path is not readable.
+        res.errormsg = QString("Error: Path %1 is non readable.").arg(path.path());
+        return ArgumentError;
+    }
+
     if (path.isRelative()) {
+        // Make path absolute if relative.
         path.makeAbsolute();
     }
     
-    // if exist
-    
-    // mkdir
-    
-    return path;    
+    res.path = path;
+
+    return ArgumentOk;    
 }
 
-void setCLIparams(QApplication& app, QCommandLineParser& parser, Blurfilter& blurfilter) {
+ParseResult checkRename(const QCommandLineParser& parser, ParseResponse& res) {
+    
+    // parse prefix value
+    QString prefixValue = parser.value("n");
+    
+    if (prefixValue.contains("/")) {
+        // invalid character in prefix
+        res.errormsg = QString("Error: Invalid file prefix, can't use / .");
+        return ArgumentError;
+    }
+    
+    if (prefixValue.contains("\\0")) {
+        // invalid character in prefix
+        res.errormsg = QString("Error: Invalid file prefix, can't use \\0 .");
+        return ArgumentError;
+    }    
+    
+    res.prefix = prefixValue;
 
-    //http://www.ics.com/blog/whats-new-qt-52-qcommandlineparser
+    return ArgumentOk; 
+}
+
+ParseResult checkThreshold(const QCommandLineParser& parser, ParseResponse& res) {
+    
+    // used to check if conversion error occured
+    bool ok;
+    
+    // parse threshold value
+    int thresholdValue = parser.value("t").toInt(&ok);
+
+    if (! ok) {
+        // error in conversion
+        res.errormsg = QString("Error: Invalid value assigned to threshold.");
+        return ArgumentError;
+    }
+    
+    if (thresholdValue < 0) {
+        // exclude value bellow 0
+        res.errormsg = QString("Error: Threshold value must be positive.");
+        return ArgumentError;
+    }
+    
+    res.threshold = thresholdValue;
+   
+    return ArgumentOk;        
+}
+
+void setCLIparams(QApplication& app, QCommandLineParser& parser) {
     
     app.setApplicationName("blurfilter");
     app.setApplicationVersion("version: a1.0");
     
     // Application description
-    parser.setApplicationDescription(app.translate("main", "On every picture within a destination folder, a filter is applied to determine the blur level. "
-            "Picture bellow the threshold will be move to a destination folder."));
-
+    parser.setApplicationDescription(app.translate("main", 
+        "On every picture within a destination folder, a filter is applied "
+        "to determine the blur level. The filter used return the variation of the Laplacian. "
+        "This program is an introduction to the C++ programming language, the OpenCV and Qt library."));
+    
     // Standard -h / --help options.
     parser.addHelpOption();
 
@@ -134,129 +127,135 @@ void setCLIparams(QApplication& app, QCommandLineParser& parser, Blurfilter& blu
     parser.addVersionOption();
     
     // -v / --verbose.
-    QCommandLineOption verboseOption(QStringList() << "b" , app.translate("main", "Verbose output."));
-    parser.addOption(verboseOption);
+    QCommandLineOption verboseOption(QStringList() << "b", app.translate("main", "Verbose output."));
     verboseOption.setDefaultValues(QStringList() << "0");
+    parser.addOption(verboseOption);    
     
     // -r / --recursive.
-    QCommandLineOption recursiveOption(QStringList() << "r" , app.translate("main", "Recursive search."));
-    parser.addOption(recursiveOption);
+    QCommandLineOption recursiveOption(QStringList() << "r", app.translate("main", "Recursive search."));
     recursiveOption.setDefaultValues(QStringList() << "0");
+    parser.addOption(recursiveOption);
+    
+    // -n / --rename.
+    QCommandLineOption renameOption(QStringList() << "n" , app.translate("main", 
+        "If set, file below threshold will be renamed with an added <prefix>."),
+        app.translate("main", "prefix"), RENAME_DEFAULTVALUE);
+    parser.addOption(renameOption);
     
     // -t / --threshold.
-    /*QString thresholdDescription = "Filter threshold, picture evaluated bellow this "
-            "value will be moved to the destination folder. Default to 100.";*/
-    QCommandLineOption thresholdOption(QStringList() << "t" , app.translate("main", "Filter threshold, picture evaluated bellow this "
-            "value will be moved to the destination folder. Default to 100."));
+    QCommandLineOption thresholdOption(QStringList() << "t" , app.translate("main", 
+        "Filter threshold, picture evaluated bellow this value will be flagged as blurry. (default is 100)."),
+        app.translate("main", "threshold"), THRESHOLD_DEFAULTVALUE);
     parser.addOption(thresholdOption);
-    thresholdOption.setDefaultValues(QStringList() << THRESHOLD_DEFAULTVALUE);
-    
+
     // Search path source.
     parser.addPositionalArgument("[SOURCE]", app.translate("main", "Source folder to search pictures."));
-    
-    // Move destination.
-//    parser.addPositionalArgument("[DESTINATION]", app.translate("main", "Destination folder to move blurred pictures. Default to ./blurfilter/"));
-    
+}
+
+void checkCLIparams(const QApplication& app, QCommandLineParser& parser, Blurfilter& blurfilter) {
     // =========================================================================
     // Check on positional arguments
     // =========================================================================
     
+    // Structure to store parsing results
+    ParseResponse response;
+    
     // Process the actual command line arguments given by the user
     parser.process(app);
     
-    // False: GUI mode
-    // True: CLI mode activated
-    bool CLImode = 0;
+    // SOURCE is args.at(0)
+    const QStringList args = parser.positionalArguments();
     
-    // source is args.at(0), destination is args.at(1)
-    QStringList args = parser.positionalArguments();
-    
-    // ckeck if arguments was given
+    // ckeck if arguments were given
     if (args.size() > 0) {
-        CLImode = 1;
-    }
-    // if not, set default path
-    else {
-        // default source path
-        args.append(QDir::homePath());
+        // Set CLI mode as true
+        blurfilter.set_cliFlag(1);
         
-        // default destination path
-//        args.append(DESTINATION_DEFAULTVALUE);
+        // Check that no more than 1 argument was specified.
+        if (args.size() > 1) {
+            fprintf(stderr, "%s\n", qPrintable(app.translate("main", 
+                "Error: Must specify one filepath argument.")));
+            parser.showHelp(1);
+        }
+        
+        // Get source path
+        QString sourcePath = args.at(0);
+
+        // Check that the path is valid
+        switch (checkArgument(sourcePath, response)) {
+            // path valid, assign path to Model
+            case ArgumentOk:
+                blurfilter.set_sourcePath(response.path);
+                break;
+            // path invalid, throw error
+            case ArgumentError:
+                fprintf(stderr, "%s\n", qPrintable(response.errormsg));
+                parser.showHelp(1);
+        }
     }
     
     // verbose
-    if (parser.isSet(verboseOption)) {
+    if (parser.isSet("b")) {
         blurfilter.set_verboseFlag(1);
     }
         
     // recursive
-    if (parser.isSet(recursiveOption)) {
+    if (parser.isSet("r")) {
         blurfilter.set_recursiveFlag(1);
     } 
     
-    // threshold
-    float thresholdValue = checkOption(thresholdOption, parser, CLImode);
-    blurfilter.set_threshold(thresholdValue);
-  
-    if (CLImode) {
-        // Check that no more than 2 arguments was specified.
-        if (args.size() > 2) {
-            fprintf(stderr, "%s\n", qPrintable(app.translate("main", "Error: More than 2 arguments was specified.")));
+    // rename
+    if (parser.isSet("n")) {
+        // Check that the rename prefix is valid
+        switch (checkRename(parser, response)) {
+        // prefix valid, assign value to Model
+        case ArgumentOk:
+            blurfilter.set_rename(1, response.prefix);
+            break;
+        // prefix invalid, throw error
+        case ArgumentError:
+            fprintf(stderr, "%s\n", qPrintable(response.errormsg));
             parser.showHelp(1);
         }
-
-        // Apply default destination path if not specified.
-//        if (args.size() == 1) {
-//            args.append(DESTINATION_DEFAULTVALUE);
-//        }
+    } 
+    
+    // threshold
+    // Check that the threshold value is valid
+    switch (checkThreshold(parser, response)) {
+        // threshold valid, assign value to Model
+        case ArgumentOk:
+            blurfilter.set_threshold(response.threshold);
+            break;
+        // threshold invalid, throw error
+        case ArgumentError:
+            fprintf(stderr, "%s\n", qPrintable(response.errormsg));
+            parser.showHelp(1);
     }
-    
-    // source path
-    QDir sourcePath = checkArgument(args.at(0));
-    blurfilter.set_sourcePath(sourcePath);
-    
-    // destination path
-//    QDir destinationPath = checkArgument(args.at(1));
-//    blurfilter.set_destinationPath(destinationPath);
-            
-    blurfilter.set_cliFlag(CLImode);
 }
 
 int main(int argc, char *argv[]) {
    
-    //http://stackoverflow.com/questions/23844867/qt-application-with-optional-gui
-    //http://www.qtcentre.org/threads/38171-Both-a-command-line-and-GUI-application-at-the-same-time
-
-    //http://stackoverflow.com/questions/23844867/qt-application-with-optional-gui
-    
-    //https://www.youtube.com/watch?v=c-dsWmG9dps
-    //Creating Qt GUI application using Netbeans IDE and Ubuntu
-    
-    // Isolate the non blurred part of foucsed image
-    //http://dsp.stackexchange.com/questions/22355/isolate-the-non-blurred-part-of-foucsed-image
-    
     QApplication app(argc, argv);
     QCommandLineParser parser;    
+    
+    // Model
     Blurfilter blurfilter;
     
-    setCLIparams(app, parser, blurfilter);
-
+    setCLIparams(app, parser);                  // set parameter used for the CLI
+    checkCLIparams(app, parser, blurfilter);    // parse parameters returned by the user
     
     if (blurfilter.isfromCLI())
     {
-        blurfilter.applyFilter();
-        
-    }
-    else
-    {
-        //w.show();
-        
-        
-        //app.exec();
+        // CLI mode, run model
+        blurfilter.applyFilter();        
     }
     
-    //fuck you
-    app.quit();
+    else
+    {
+        // GUI code goes here
+        //w.show();
+        //app.exec();
+    }
 
     return 0;
 }

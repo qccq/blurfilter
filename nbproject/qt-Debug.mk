@@ -437,10 +437,10 @@ build/Debug/GNU-Linux/main.o: main.cpp /usr/include/qt5/QtWidgets/QApplication \
 		/usr/include/qt5/QtCore/qcommandlineparser.h \
 		/usr/include/qt5/QtCore/QString \
 		/usr/include/qt5/QtCore/QStringList \
-		/usr/include/qt5/QtCore/QDebug \
 		/usr/include/qt5/QtCore/QDir \
 		/usr/include/qt5/QtCore/qdir.h \
 		/usr/include/qt5/QtCore/qfileinfo.h \
+		/usr/include/qt5/QtCore/QDebug \
 		header/Blurfilter.h \
 		/usr/include/qt5/QtCore/QDirIterator \
 		/usr/include/qt5/QtCore/qdiriterator.h \
@@ -481,7 +481,8 @@ build/Debug/GNU-Linux/main.o: main.cpp /usr/include/qt5/QtWidgets/QApplication \
 		/usr/local/include/opencv2/imgproc/types_c.h \
 		/usr/local/include/opencv2/imgcodecs/imgcodecs_c.h \
 		/usr/local/include/opencv2/videoio/videoio_c.h \
-		/usr/local/include/opencv2/imgproc.hpp
+		/usr/local/include/opencv2/imgproc.hpp \
+		/usr/include/qt5/QtCore/QFile
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Debug/GNU-Linux/main.o main.cpp
 
 build/Debug/GNU-Linux/Blurfilter.o: source/Blurfilter.cpp header/Blurfilter.h \
@@ -559,6 +560,17 @@ build/Debug/GNU-Linux/Blurfilter.o: source/Blurfilter.cpp header/Blurfilter.h \
 		/usr/include/qt5/QtCore/QFileInfo \
 		/usr/include/qt5/QtCore/QtGlobal \
 		/usr/include/qt5/QtCore/QList \
+		/usr/include/qt5/QtCore/QDebug \
+		/usr/include/qt5/QtCore/qdebug.h \
+		/usr/include/qt5/QtCore/qhash.h \
+		/usr/include/qt5/QtCore/qmap.h \
+		/usr/include/qt5/QtCore/qtextstream.h \
+		/usr/include/qt5/QtCore/qlocale.h \
+		/usr/include/qt5/QtCore/qvariant.h \
+		/usr/include/qt5/QtCore/qvector.h \
+		/usr/include/qt5/QtCore/qpoint.h \
+		/usr/include/qt5/QtCore/qset.h \
+		/usr/include/qt5/QtCore/qcontiguouscache.h \
 		header/Pictures.h \
 		/usr/local/include/opencv2/core/core.hpp \
 		/usr/local/include/opencv2/core.hpp \
@@ -594,7 +606,8 @@ build/Debug/GNU-Linux/Blurfilter.o: source/Blurfilter.cpp header/Blurfilter.h \
 		/usr/local/include/opencv2/imgcodecs/imgcodecs_c.h \
 		/usr/local/include/opencv2/videoio/videoio_c.h \
 		/usr/local/include/opencv2/imgproc.hpp \
-		/usr/include/qt5/QtCore/QString
+		/usr/include/qt5/QtCore/QString \
+		/usr/include/qt5/QtCore/QFile
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Debug/GNU-Linux/Blurfilter.o source/Blurfilter.cpp
 
 build/Debug/GNU-Linux/Pictures.o: source/Pictures.cpp header/Pictures.h \
@@ -676,6 +689,42 @@ build/Debug/GNU-Linux/Pictures.o: source/Pictures.cpp header/Pictures.h \
 		/usr/include/qt5/QtCore/qnamespace.h \
 		/usr/include/qt5/QtCore/qarraydata.h \
 		/usr/include/qt5/QtCore/qstringbuilder.h \
+		/usr/include/qt5/QtCore/QFile \
+		/usr/include/qt5/QtCore/qfile.h \
+		/usr/include/qt5/QtCore/qfiledevice.h \
+		/usr/include/qt5/QtCore/qiodevice.h \
+		/usr/include/qt5/QtCore/qobject.h \
+		/usr/include/qt5/QtCore/qobjectdefs.h \
+		/usr/include/qt5/QtCore/qobjectdefs_impl.h \
+		/usr/include/qt5/QtCore/qlist.h \
+		/usr/include/qt5/QtCore/qalgorithms.h \
+		/usr/include/qt5/QtCore/qiterator.h \
+		/usr/include/qt5/QtCore/qcoreevent.h \
+		/usr/include/qt5/QtCore/qscopedpointer.h \
+		/usr/include/qt5/QtCore/qmetatype.h \
+		/usr/include/qt5/QtCore/qvarlengtharray.h \
+		/usr/include/qt5/QtCore/qcontainerfwd.h \
+		/usr/include/qt5/QtCore/qisenum.h \
+		/usr/include/qt5/QtCore/qobject_impl.h \
+		/usr/include/qt5/QtCore/QFileInfo \
+		/usr/include/qt5/QtCore/qfileinfo.h \
+		/usr/include/qt5/QtCore/qshareddata.h \
+		/usr/include/qt5/QtCore/QDebug \
+		/usr/include/qt5/QtCore/qdebug.h \
+		/usr/include/qt5/QtCore/qhash.h \
+		/usr/include/qt5/QtCore/qpair.h \
+		/usr/include/qt5/QtCore/qmap.h \
+		/usr/include/qt5/QtCore/qtextstream.h \
+		/usr/include/qt5/QtCore/qlocale.h \
+		/usr/include/qt5/QtCore/qvariant.h \
+		/usr/include/qt5/QtCore/qstringlist.h \
+		/usr/include/qt5/QtCore/qdatastream.h \
+		/usr/include/qt5/QtCore/qregexp.h \
+		/usr/include/qt5/QtCore/qstringmatcher.h \
+		/usr/include/qt5/QtCore/qvector.h \
+		/usr/include/qt5/QtCore/qpoint.h \
+		/usr/include/qt5/QtCore/qset.h \
+		/usr/include/qt5/QtCore/qcontiguouscache.h \
 		/usr/include/qt5/QtCore/QtGlobal
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Debug/GNU-Linux/Pictures.o source/Pictures.cpp
 

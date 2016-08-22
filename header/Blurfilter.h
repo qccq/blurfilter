@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   blurfilter.h
  * Author: ef
@@ -20,6 +14,7 @@
 #include <QFileInfo>
 #include <QtGlobal>
 #include <QList>
+#include <QDebug>
 
 #include <header/Pictures.h>
 
@@ -34,11 +29,12 @@ public:
     Blurfilter();
     Blurfilter(Blurfilter const& orig);
     
-    void set_sourcePath(QDir source);
-    void set_threshold(float threshold);
+    void set_sourcePath(const QDir &source);
+    void set_threshold(int threshold);
     void set_cliFlag(bool cli);
     void set_verboseFlag(bool verboseFlag);
     void set_recursiveFlag(bool recursiveFlag);
+    void set_rename(bool renameFlag, const QString &prefix);
     
     bool isfromCLI() const;
    
@@ -48,10 +44,12 @@ public:
 
 private:
     QDir sourcePath;
-    float filterthreshold;
+    int filterthreshold;
+    QString renamePrefix;           // prefix to add to file with the rename operation
     bool CLI;                       // CLI mode
     bool verbose;                   // verbose mode
     bool recursive;                 // recursive search
+    bool rename;                    // rename mode
     int selectedPictures;           // number of pictures below threshold
     int foundFiles;                 // number of file found
     int progress;                   // used to calculate PERCENTCOMPLETE
@@ -66,11 +64,7 @@ private:
     void msg_progress(Pictures &picture) const;
     
     void searchPictures();
-    void moveToDestination();
-    void calculateProgress();
-    
-    void print_status() const;
-    
+    void calculateProgress();    
 };
 
 #endif /* BLURFILTER_H */

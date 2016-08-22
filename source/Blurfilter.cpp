@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   Blurfilter.cpp
  * Author: ef
@@ -18,22 +12,24 @@
 Blurfilter::Blurfilter():
     CLI(0),
     verbose(0),    
-    recursive(0)
+    recursive(0),
+    rename(0)
 {    
 }
 
 Blurfilter::Blurfilter(Blurfilter const& obj):
     CLI(obj.CLI),
     verbose(obj.verbose),
-    recursive(obj.recursive)
+    recursive(obj.recursive),
+    rename(obj.rename)
 {
 }
 
-void Blurfilter::set_sourcePath(QDir source) {
+void Blurfilter::set_sourcePath(const QDir &source) {
     sourcePath = source;
 }
 
-void Blurfilter::set_threshold(float threshold) {
+void Blurfilter::set_threshold(int threshold) {
     filterthreshold = threshold;
 }
 
@@ -49,17 +45,28 @@ void Blurfilter::set_recursiveFlag(bool recursiveFlag) {
     recursive = recursiveFlag;    
 }
 
+void Blurfilter::set_rename(bool renameFlag, const QString &prefix) {
+    rename = renameFlag;
+    renamePrefix = prefix;
+}
+
 bool Blurfilter::isfromCLI() const {
     return CLI;
 }
 
 void Blurfilter::applyFilter() {
 
-    progress = 0;
-    selectedPictures = 0;    
-
-    print_status();
+    progress = 0;                   // reset progress
+    selectedPictures = 0;           // reset number of selected Pictures    
     
+    qDebug() << QString("SOURCE PATH: %1").arg(sourcePath.absolutePath());
+    qDebug() << QString("VERBOSE: %1").arg(verbose);
+    qDebug() << QString("RECURSIVE: %1").arg(recursive);
+    qDebug() << QString("RENAME : %1").arg(rename);
+    qDebug() << QString("RENAME PREFIX: %1").arg(renamePrefix);
+    qDebug() << QString("THRESHOLD: %1").arg(QString::number(filterthreshold));
+    
+    // search for picture files in SOURCEPATH
     searchPictures();
     
     if (CLI) {
@@ -70,11 +77,13 @@ void Blurfilter::applyFilter() {
     // create picture objects for each file found
     foreach (QStringList file, pathList){        
         
+        // increment progress counter
         calculateProgress();
         
         Pictures pic(file.at(0), file.at(1));
         
         if (pic.getScore() <= filterthreshold) {
+            // flag picture below threshold
             pic.setSelected();
             selectedPictures++;
         }
@@ -82,6 +91,7 @@ void Blurfilter::applyFilter() {
         pictureList.append(pic);
         
         if (verbose){
+            // print progress bar
             msg_progress(pic);
         }
     }
@@ -93,17 +103,26 @@ void Blurfilter::applyFilter() {
         msg_results();
         
         foreach (Pictures pic, pictureList) {
+            // only print result from selected picture
             if (pic.isSelected()) {
                 pic.printInfo();
             }
+            // exit loop at first Picture non selected
+            // pictureList must be sorted
             else {
                 break;
             }
         }
     }
     
-//    printResults();
-//    moveToDestination();
+    if (rename) {
+        
+        foreach (Pictures pic, pictureList) {
+            if (pic.isSelected()) {
+                pic.renameFile(renamePrefix);
+            }
+        }
+    }
     
 }
 
@@ -116,6 +135,7 @@ void Blurfilter::searchPictures() {
     nameFilters << "*.bmp";
     nameFilters << "*.png";
     
+    // apply filter to QDirIterator
     QDirIterator::IteratorFlags flags;
     
     if (recursive) {
@@ -127,13 +147,13 @@ void Blurfilter::searchPictures() {
         flags |= QDirIterator::NoIteratorFlags;
     }
     
+    // iterator used to navigate to each file in SOURCEPATH
     QDirIterator fileIt(sourcePath.absolutePath(), nameFilters, QDir::Files, flags);
-    
-    
+        
     while (fileIt.hasNext())
     {
-        QString filepath = fileIt.next();
-        QString filename = fileIt.fileName();
+        QString filepath = fileIt.next();       // absolute path
+        QString filename = fileIt.fileName();   // filename
         
         QDir file(filepath);
         
@@ -142,15 +162,11 @@ void Blurfilter::searchPictures() {
             QStringList path;
             path << filename << filepath;
             
-            pathList << path;
+            pathList << path;                   // add path to pathlist
         }
     }
     
     foundFiles = pathList.count();
-}
-
-void Blurfilter::moveToDestination() {
-
 }
 
 void Blurfilter::calculateProgress() {
@@ -159,9 +175,8 @@ void Blurfilter::calculateProgress() {
     
     percentcomplete = float(progress) / float(foundFiles);
     
-    return;    
+    return;
 }
-
 
 void Blurfilter::msg_results() const {
     QString s = "";
@@ -209,16 +224,6 @@ void Blurfilter::msg_progress(Pictures &picture) const {
     if (progress == foundFiles) {
         std::cout << std::endl;
     }
-}
-
-void Blurfilter::print_status() const {
-
-    std::cout << std::endl;
-    std::cout << qPrintable(QString("SOURCE PATH: %1").arg(sourcePath.absolutePath())) << std::endl;
-    std::cout << qPrintable(QString("VERBOSE: %1").arg(verbose)) << std::endl;
-    std::cout << qPrintable(QString("RECURSIVE: %1").arg(recursive)) << std::endl;
-    std::cout << qPrintable(QString("THRESHOLD: %1").arg(QString::number(filterthreshold))) << std::endl;
-    std::cout << std::endl;
 }
 
 Blurfilter::~Blurfilter() {

@@ -15,10 +15,10 @@ CXX           = g++
 DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -m64 -pipe -O2 -Wall -W -D_REENTRANT -fPIE $(DEFINES)
 CXXFLAGS      = -m64 -pipe -O2 -Wall -W -D_REENTRANT -fPIE $(DEFINES)
-INCPATH       = -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -Inbproject -I/usr/local/include/opencv2 -I/usr/local/include/opencv -I/usr/local/include -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtCore -I. -I.
+INCPATH       = -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -Inbproject -I/usr/local/include/opencv2 -I/usr/local/lib -I/usr/local/include/opencv -I/usr/local/include -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtCore -I. -I.
 LINK          = g++
 LFLAGS        = -m64 -Wl,-O1
-LIBS          = $(SUBLIBS) -L/usr/X11R6/lib64 -Wl,-rpath,/usr/local/include/opencv2 -L/usr/local/lib -lopencv_stitching -lopencv_superres -lopencv_videostab -lopencv_aruco -lopencv_bgsegm -lopencv_bioinspired -lopencv_ccalib -lopencv_dnn -lopencv_dpm -lopencv_fuzzy -lopencv_line_descriptor -lopencv_optflow -lopencv_plot -lopencv_reg -lopencv_saliency -lopencv_stereo -lopencv_structured_light -lopencv_rgbd -lopencv_surface_matching -lopencv_tracking -lopencv_datasets -lopencv_text -lopencv_face -lopencv_xfeatures2d -lopencv_shape -lopencv_video -lopencv_ximgproc -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_xobjdetect -lopencv_objdetect -lopencv_ml -lopencv_xphoto -lippicv -lopencv_highgui -lopencv_videoio -lopencv_imgcodecs -lopencv_photo -lopencv_imgproc -lopencv_core -lQt5Widgets -L/usr/lib/x86_64-linux-gnu -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -L/usr/X11R6/lib64 -Wl,-rpath,/usr/local/include/opencv2 -L/usr/local/lib -lopencv_stitching -lopencv_superres -lopencv_videostab -lopencv_aruco -lopencv_bgsegm -lopencv_bioinspired -lopencv_ccalib -lopencv_dnn -lopencv_dpm -lopencv_fuzzy -lopencv_line_descriptor -lopencv_optflow -lopencv_plot -lopencv_reg -lopencv_saliency -lopencv_stereo -lopencv_structured_light -lopencv_rgbd -lopencv_surface_matching -lopencv_tracking -lopencv_datasets -lopencv_text -lopencv_face -lopencv_xfeatures2d -lopencv_shape -lopencv_video -lopencv_ximgproc -lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_xobjdetect -lopencv_objdetect -lopencv_ml -lopencv_xphoto -lopencv_highgui -lopencv_videoio -lopencv_imgcodecs -lopencv_photo -lopencv_imgproc -lopencv_core -lQt5Widgets -L/usr/lib/x86_64-linux-gnu -lQt5Gui -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 QMAKE         = /usr/lib/x86_64-linux-gnu/qt5/bin/qmake
@@ -436,12 +436,13 @@ build/Release/GNU-Linux/main.o: main.cpp /usr/include/qt5/QtWidgets/QApplication
 		/usr/include/qt5/QtCore/qcommandlineparser.h \
 		/usr/include/qt5/QtCore/QString \
 		/usr/include/qt5/QtCore/QStringList \
-		/usr/include/qt5/QtCore/QDebug \
 		/usr/include/qt5/QtCore/QDir \
 		/usr/include/qt5/QtCore/qdir.h \
 		/usr/include/qt5/QtCore/qfileinfo.h \
+		/usr/include/qt5/QtCore/QDebug \
 		header/Blurfilter.h \
-		/usr/include/qt5/QtCore/QFileInfoList \
+		/usr/include/qt5/QtCore/QDirIterator \
+		/usr/include/qt5/QtCore/qdiriterator.h \
 		/usr/include/qt5/QtCore/QFileInfo \
 		/usr/include/qt5/QtCore/QtGlobal \
 		/usr/include/qt5/QtCore/QList \
@@ -470,35 +471,17 @@ build/Release/GNU-Linux/main.o: main.cpp /usr/include/qt5/QtWidgets/QApplication
 		/usr/local/include/opencv2/core/core_c.h \
 		/usr/local/include/opencv2/core/types_c.h \
 		/usr/local/include/opencv2/core/optim.hpp \
-		/usr/local/include/opencv2/opencv.hpp \
-		/usr/local/include/opencv2/imgproc.hpp \
-		/usr/local/include/opencv2/imgproc/imgproc_c.h \
-		/usr/local/include/opencv2/imgproc/types_c.h \
-		/usr/local/include/opencv2/photo.hpp \
-		/usr/local/include/opencv2/photo/photo_c.h \
-		/usr/local/include/opencv2/video.hpp \
-		/usr/local/include/opencv2/video/tracking.hpp \
-		/usr/local/include/opencv2/video/background_segm.hpp \
-		/usr/local/include/opencv2/video/tracking_c.h \
-		/usr/local/include/opencv2/features2d.hpp \
-		/usr/local/include/opencv2/flann/miniflann.hpp \
-		/usr/local/include/opencv2/flann/defines.h \
-		/usr/local/include/opencv2/flann/config.h \
-		/usr/local/include/opencv2/objdetect.hpp \
-		/usr/local/include/opencv2/objdetect/detection_based_tracker.hpp \
-		/usr/local/include/opencv2/objdetect/objdetect_c.h \
-		/usr/local/include/opencv2/calib3d.hpp \
-		/usr/local/include/opencv2/core/affine.hpp \
-		/usr/local/include/opencv2/calib3d/calib3d_c.h \
+		/usr/local/include/opencv2/highgui/highgui.hpp \
+		/usr/local/include/opencv2/highgui.hpp \
 		/usr/local/include/opencv2/imgcodecs.hpp \
 		/usr/local/include/opencv2/videoio.hpp \
-		/usr/local/include/opencv2/highgui.hpp \
 		/usr/local/include/opencv2/highgui/highgui_c.h \
+		/usr/local/include/opencv2/imgproc/imgproc_c.h \
+		/usr/local/include/opencv2/imgproc/types_c.h \
 		/usr/local/include/opencv2/imgcodecs/imgcodecs_c.h \
 		/usr/local/include/opencv2/videoio/videoio_c.h \
-		/usr/local/include/opencv2/ml.hpp \
-		/usr/local/include/opencv2/imgproc/imgproc.hpp \
-		/usr/local/include/opencv2/highgui/highgui.hpp
+		/usr/local/include/opencv2/imgproc.hpp \
+		/usr/include/qt5/QtCore/QFile
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Release/GNU-Linux/main.o main.cpp
 
 build/Release/GNU-Linux/Blurfilter.o: source/Blurfilter.cpp header/Blurfilter.h \
@@ -570,10 +553,23 @@ build/Release/GNU-Linux/Blurfilter.o: source/Blurfilter.cpp header/Blurfilter.h 
 		/usr/include/qt5/QtCore/qpair.h \
 		/usr/include/qt5/QtCore/qregexp.h \
 		/usr/include/qt5/QtCore/qstringmatcher.h \
-		/usr/include/qt5/QtCore/QFileInfoList \
+		/usr/include/qt5/QtCore/QDirIterator \
+		/usr/include/qt5/QtCore/qdiriterator.h \
+		/usr/include/qt5/QtCore/QStringList \
 		/usr/include/qt5/QtCore/QFileInfo \
 		/usr/include/qt5/QtCore/QtGlobal \
 		/usr/include/qt5/QtCore/QList \
+		/usr/include/qt5/QtCore/QDebug \
+		/usr/include/qt5/QtCore/qdebug.h \
+		/usr/include/qt5/QtCore/qhash.h \
+		/usr/include/qt5/QtCore/qmap.h \
+		/usr/include/qt5/QtCore/qtextstream.h \
+		/usr/include/qt5/QtCore/qlocale.h \
+		/usr/include/qt5/QtCore/qvariant.h \
+		/usr/include/qt5/QtCore/qvector.h \
+		/usr/include/qt5/QtCore/qpoint.h \
+		/usr/include/qt5/QtCore/qset.h \
+		/usr/include/qt5/QtCore/qcontiguouscache.h \
 		header/Pictures.h \
 		/usr/local/include/opencv2/core/core.hpp \
 		/usr/local/include/opencv2/core.hpp \
@@ -599,36 +595,18 @@ build/Release/GNU-Linux/Blurfilter.o: source/Blurfilter.cpp header/Blurfilter.h 
 		/usr/local/include/opencv2/core/core_c.h \
 		/usr/local/include/opencv2/core/types_c.h \
 		/usr/local/include/opencv2/core/optim.hpp \
-		/usr/local/include/opencv2/opencv.hpp \
-		/usr/local/include/opencv2/imgproc.hpp \
-		/usr/local/include/opencv2/imgproc/imgproc_c.h \
-		/usr/local/include/opencv2/imgproc/types_c.h \
-		/usr/local/include/opencv2/photo.hpp \
-		/usr/local/include/opencv2/photo/photo_c.h \
-		/usr/local/include/opencv2/video.hpp \
-		/usr/local/include/opencv2/video/tracking.hpp \
-		/usr/local/include/opencv2/video/background_segm.hpp \
-		/usr/local/include/opencv2/video/tracking_c.h \
-		/usr/local/include/opencv2/features2d.hpp \
-		/usr/local/include/opencv2/flann/miniflann.hpp \
-		/usr/local/include/opencv2/flann/defines.h \
-		/usr/local/include/opencv2/flann/config.h \
-		/usr/local/include/opencv2/objdetect.hpp \
-		/usr/local/include/opencv2/objdetect/detection_based_tracker.hpp \
-		/usr/local/include/opencv2/objdetect/objdetect_c.h \
-		/usr/local/include/opencv2/calib3d.hpp \
-		/usr/local/include/opencv2/core/affine.hpp \
-		/usr/local/include/opencv2/calib3d/calib3d_c.h \
+		/usr/local/include/opencv2/highgui/highgui.hpp \
+		/usr/local/include/opencv2/highgui.hpp \
 		/usr/local/include/opencv2/imgcodecs.hpp \
 		/usr/local/include/opencv2/videoio.hpp \
-		/usr/local/include/opencv2/highgui.hpp \
 		/usr/local/include/opencv2/highgui/highgui_c.h \
+		/usr/local/include/opencv2/imgproc/imgproc_c.h \
+		/usr/local/include/opencv2/imgproc/types_c.h \
 		/usr/local/include/opencv2/imgcodecs/imgcodecs_c.h \
 		/usr/local/include/opencv2/videoio/videoio_c.h \
-		/usr/local/include/opencv2/ml.hpp \
-		/usr/local/include/opencv2/imgproc/imgproc.hpp \
-		/usr/local/include/opencv2/highgui/highgui.hpp \
-		/usr/include/qt5/QtCore/QString
+		/usr/local/include/opencv2/imgproc.hpp \
+		/usr/include/qt5/QtCore/QString \
+		/usr/include/qt5/QtCore/QFile
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Release/GNU-Linux/Blurfilter.o source/Blurfilter.cpp
 
 build/Release/GNU-Linux/Pictures.o: source/Pictures.cpp header/Pictures.h \
@@ -656,35 +634,16 @@ build/Release/GNU-Linux/Pictures.o: source/Pictures.cpp header/Pictures.h \
 		/usr/local/include/opencv2/core/core_c.h \
 		/usr/local/include/opencv2/core/types_c.h \
 		/usr/local/include/opencv2/core/optim.hpp \
-		/usr/local/include/opencv2/opencv.hpp \
-		/usr/local/include/opencv2/imgproc.hpp \
-		/usr/local/include/opencv2/imgproc/imgproc_c.h \
-		/usr/local/include/opencv2/imgproc/types_c.h \
-		/usr/local/include/opencv2/photo.hpp \
-		/usr/local/include/opencv2/photo/photo_c.h \
-		/usr/local/include/opencv2/video.hpp \
-		/usr/local/include/opencv2/video/tracking.hpp \
-		/usr/local/include/opencv2/video/background_segm.hpp \
-		/usr/local/include/opencv2/video/tracking_c.h \
-		/usr/local/include/opencv2/features2d.hpp \
-		/usr/local/include/opencv2/flann/miniflann.hpp \
-		/usr/local/include/opencv2/flann/defines.h \
-		/usr/local/include/opencv2/flann/config.h \
-		/usr/local/include/opencv2/objdetect.hpp \
-		/usr/local/include/opencv2/objdetect/detection_based_tracker.hpp \
-		/usr/local/include/opencv2/objdetect/objdetect_c.h \
-		/usr/local/include/opencv2/calib3d.hpp \
-		/usr/local/include/opencv2/core/affine.hpp \
-		/usr/local/include/opencv2/calib3d/calib3d_c.h \
+		/usr/local/include/opencv2/highgui/highgui.hpp \
+		/usr/local/include/opencv2/highgui.hpp \
 		/usr/local/include/opencv2/imgcodecs.hpp \
 		/usr/local/include/opencv2/videoio.hpp \
-		/usr/local/include/opencv2/highgui.hpp \
 		/usr/local/include/opencv2/highgui/highgui_c.h \
+		/usr/local/include/opencv2/imgproc/imgproc_c.h \
+		/usr/local/include/opencv2/imgproc/types_c.h \
 		/usr/local/include/opencv2/imgcodecs/imgcodecs_c.h \
 		/usr/local/include/opencv2/videoio/videoio_c.h \
-		/usr/local/include/opencv2/ml.hpp \
-		/usr/local/include/opencv2/imgproc/imgproc.hpp \
-		/usr/local/include/opencv2/highgui/highgui.hpp \
+		/usr/local/include/opencv2/imgproc.hpp \
 		/usr/include/qt5/QtCore/QString \
 		/usr/include/qt5/QtCore/qstring.h \
 		/usr/include/qt5/QtCore/qchar.h \
@@ -728,7 +687,42 @@ build/Release/GNU-Linux/Pictures.o: source/Pictures.cpp header/Pictures.h \
 		/usr/include/qt5/QtCore/qrefcount.h \
 		/usr/include/qt5/QtCore/qnamespace.h \
 		/usr/include/qt5/QtCore/qarraydata.h \
-		/usr/include/qt5/QtCore/qstringbuilder.h
+		/usr/include/qt5/QtCore/qstringbuilder.h \
+		/usr/include/qt5/QtCore/QFile \
+		/usr/include/qt5/QtCore/qfile.h \
+		/usr/include/qt5/QtCore/qfiledevice.h \
+		/usr/include/qt5/QtCore/qiodevice.h \
+		/usr/include/qt5/QtCore/qobject.h \
+		/usr/include/qt5/QtCore/qobjectdefs.h \
+		/usr/include/qt5/QtCore/qobjectdefs_impl.h \
+		/usr/include/qt5/QtCore/qlist.h \
+		/usr/include/qt5/QtCore/qalgorithms.h \
+		/usr/include/qt5/QtCore/qiterator.h \
+		/usr/include/qt5/QtCore/qcoreevent.h \
+		/usr/include/qt5/QtCore/qscopedpointer.h \
+		/usr/include/qt5/QtCore/qmetatype.h \
+		/usr/include/qt5/QtCore/qvarlengtharray.h \
+		/usr/include/qt5/QtCore/qcontainerfwd.h \
+		/usr/include/qt5/QtCore/qisenum.h \
+		/usr/include/qt5/QtCore/qobject_impl.h \
+		/usr/include/qt5/QtCore/QDebug \
+		/usr/include/qt5/QtCore/qdebug.h \
+		/usr/include/qt5/QtCore/qhash.h \
+		/usr/include/qt5/QtCore/qpair.h \
+		/usr/include/qt5/QtCore/qmap.h \
+		/usr/include/qt5/QtCore/qtextstream.h \
+		/usr/include/qt5/QtCore/qlocale.h \
+		/usr/include/qt5/QtCore/qvariant.h \
+		/usr/include/qt5/QtCore/qstringlist.h \
+		/usr/include/qt5/QtCore/qdatastream.h \
+		/usr/include/qt5/QtCore/qregexp.h \
+		/usr/include/qt5/QtCore/qstringmatcher.h \
+		/usr/include/qt5/QtCore/qshareddata.h \
+		/usr/include/qt5/QtCore/qvector.h \
+		/usr/include/qt5/QtCore/qpoint.h \
+		/usr/include/qt5/QtCore/qset.h \
+		/usr/include/qt5/QtCore/qcontiguouscache.h \
+		/usr/include/qt5/QtCore/QtGlobal
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Release/GNU-Linux/Pictures.o source/Pictures.cpp
 
 ####### Install

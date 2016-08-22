@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   Pictures.cpp
  * Author: ef
@@ -43,27 +37,63 @@ float Pictures::calcScore() {
     cv::Scalar mean, stddev;
     float var;
     
-    //http://docs.opencv.org/2.4/modules/highgui/doc/reading_and_writing_images_and_video.html?highlight=imread#imread
+    // http://docs.opencv.org/2.4/modules/highgui/doc/reading_and_writing_images_and_video.html?highlight=imread#imread
+    // open picture file, converted to grayscale
+    // TODO: add error detection
     grayscaleImage = cv::imread(path.toStdString(), CV_LOAD_IMAGE_GRAYSCALE);
     
-    //http://docs.opencv.org/2.4/modules/imgproc/doc/filtering.html?highlight=laplacian#cv2.Laplacian
+    // http://docs.opencv.org/2.4/modules/imgproc/doc/filtering.html?highlight=laplacian#cv2.Laplacian
+    // apply the Laplacian using the following kernel:
+    //                                                  [0  1  0]
+    //                                                  [1 -4  1]
+    //                                                  [0  1  0]
     cv::Laplacian(grayscaleImage, lapalce, CV_64F);
     
-    //http://docs.opencv.org/2.4/modules/core/doc/operations_on_arrays.html?highlight=meanstd#meanstddev
-    //cv::meanStdDev(lapalce, mean, stddev, cv::Mat() );
+    // http://docs.opencv.org/2.4/modules/core/doc/operations_on_arrays.html?highlight=meanstd#meanstddev
+    // calc the standard deviation of the Laplacian
     cv::meanStdDev(lapalce, mean, stddev);
         
-    //variance = stddev²
+    // the variance is equal to -> stddev²
     var = stddev.val[0] * stddev.val[0];
     
     return var;
 }
 
+void Pictures::renameFile(const QString& prefix) {
+    
+    QFile file(path);                       // used for rename
+    QFileInfo fileInfo(file);               // used to get path of file
+    
+    // ex: /home/user/pic/mypicture.jpg
+    QString basePath = fileInfo.path();     // return: /home/user/pic/
+    
+    // new filename
+    QString newName = QString("%1%2").arg(prefix, filename);
+    
+    // add new filename to basePath
+    QString newFileNameAbsolutePath = QString("%1/%2").arg(basePath, newName);
+    
+    // used to detect if rename was successful.
+    bool succes;
+    
+    // rename operation
+    succes = QFile::rename(path, newFileNameAbsolutePath);
+    
+    if (! succes) {
+        // rename failed, possible cause:
+        // newname already exist, the file is open, file is not writable
+        // TODO: add error detection
+        qDebug() << QString("Rename of %1 failed").arg(filename);
+    }
+    
+    return;
+}
+
 void Pictures::printInfo() const {
     QString ljFilename = filename.leftJustified(60, ' ');
     QString rjScore = QString::number(score, 'f', 1).rightJustified(6, ' ');
-    std::cout << qPrintable(QString("%1%2").arg(ljFilename, rjScore));
-    std::cout << std::endl; 
+    
+    std::cout << qPrintable(QString("%1%2").arg(ljFilename, rjScore)) << std::endl;
 }
 
 void Pictures::setSelected() {

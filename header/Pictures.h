@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   Pictures.h
  * Author: ef
@@ -19,6 +13,9 @@
 #include <opencv2/imgproc.hpp>
 
 #include <QString>
+#include <QFile>
+#include <QFileInfo>
+#include <QDebug>
 #include <QtGlobal>
 
 #include <iostream>
@@ -31,21 +28,25 @@ public:
     
     float getScore() const;    
     QString getFilename() const;
-    void printInfo() const;
+    
     void setSelected();
+    
     bool isSelected() const;
+    void printInfo() const;
+    void renameFile(QString const& prefix);
   
     virtual ~Pictures();
     
 private:
 
-    QString filename;
-    QString path;
-    float calcScore();
-    float score;
-    bool selected;
+    QString filename;           // filename of the picture
+    QString path;               // absolute path of the picture
+    float calcScore();          // apply the filter on the picture
+    float score;                // result of the Laplacian variation
+    bool selected;              // set True if SCORE if bellow a threshold
 };
 
 #endif /* PICTURES_H */
 
+// used by std::sort
 bool operator < (Pictures const &pic1, Pictures const &pic2);
